@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-const STORAGE_KEY = 'minihub_moodTracker';
+const STORAGE_KEY = "minihub_moodTracker";
 
 interface MoodEntry {
   id: string;
@@ -15,14 +15,14 @@ interface MoodEntry {
   note: string;
 }
 
-const moods = ['행복', '슬픔', '화남', '평온', '피곤', '흥분'];
+const moods = ["행복", "슬픔", "화남", "평온", "피곤", "흥분"];
 
 export default function MoodTracker() {
   const [entries, setEntries] = useState<MoodEntry[]>([]);
-  const [newEntry, setNewEntry] = useState<Omit<MoodEntry, 'id'>>({
-    date: new Date().toISOString().split('T')[0],
-    mood: '',
-    note: '',
+  const [newEntry, setNewEntry] = useState<Omit<MoodEntry, "id">>({
+    date: new Date().toISOString().split("T")[0],
+    mood: "",
+    note: "",
   });
 
   useEffect(() => {
@@ -39,18 +39,22 @@ export default function MoodTracker() {
   const addEntry = () => {
     if (!newEntry.mood) return;
     const entry: MoodEntry = { ...newEntry, id: Date.now().toString() };
-    setEntries(prev => [entry, ...prev]);
-    setNewEntry({ date: new Date().toISOString().split('T')[0], mood: '', note: '' });
+    setEntries((prev) => [entry, ...prev]);
+    setNewEntry({
+      date: new Date().toISOString().split("T")[0],
+      mood: "",
+      note: "",
+    });
   };
 
   const deleteEntry = (id: string) => {
-    setEntries(prev => prev.filter(e => e.id !== id));
+    setEntries((prev) => prev.filter((e) => e.id !== id));
   };
 
   return (
-    <div className="p-4">
+    <div className="p-4 text-center">
       <h1 className="text-2xl font-bold mb-4">Mood Tracker</h1>
-      <Card className="mb-4">
+      <Card className="mb-4 rounded-2xl">
         <CardHeader>
           <CardTitle>새 기분 기록</CardTitle>
         </CardHeader>
@@ -58,14 +62,16 @@ export default function MoodTracker() {
           <Input
             type="date"
             value={newEntry.date}
-            onChange={(e) => setNewEntry(prev => ({ ...prev, date: e.target.value }))}
+            onChange={(e) =>
+              setNewEntry((prev) => ({ ...prev, date: e.target.value }))
+            }
           />
           <div className="flex gap-2 flex-wrap">
-            {moods.map(mood => (
+            {moods.map((mood) => (
               <Button
                 key={mood}
-                variant={newEntry.mood === mood ? 'default' : 'outline'}
-                onClick={() => setNewEntry(prev => ({ ...prev, mood }))}
+                variant={newEntry.mood === mood ? "default" : "outline"}
+                onClick={() => setNewEntry((prev) => ({ ...prev, mood }))}
               >
                 {mood}
               </Button>
@@ -74,18 +80,26 @@ export default function MoodTracker() {
           <Textarea
             placeholder="메모"
             value={newEntry.note}
-            onChange={(e) => setNewEntry(prev => ({ ...prev, note: e.target.value }))}
+            onChange={(e) =>
+              setNewEntry((prev) => ({ ...prev, note: e.target.value }))
+            }
           />
           <Button onClick={addEntry}>기록</Button>
         </CardContent>
       </Card>
       <div className="grid gap-4">
-        {entries.map(entry => (
-          <Card key={entry.id}>
+        {entries.map((entry) => (
+          <Card key={entry.id} className="rounded-2xl">
             <CardHeader>
               <CardTitle className="flex justify-between">
                 {entry.date} - {entry.mood}
-                <Button variant="destructive" size="sm" onClick={() => deleteEntry(entry.id)}>삭제</Button>
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  onClick={() => deleteEntry(entry.id)}
+                >
+                  삭제
+                </Button>
               </CardTitle>
             </CardHeader>
             <CardContent>

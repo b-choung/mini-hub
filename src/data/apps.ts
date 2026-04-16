@@ -7,9 +7,9 @@ export const apps: App[] = [
     description: "칸반 보드 스타일로 할 일 관리를 도와주는 앱입니다",
   },
   {
-    id: "pomodoro",
-    name: "Pomodoro Timer",
-    description: "포모도로 기법을 사용하여 집중력을 높여주는 타이머 앱입니다",
+    id: "timer",
+    name: "Timer",
+    description: "원하는 시간의 타이머를 설정하여 집중력을 높이는 앱입니다",
   },
   {
     id: "goalTracker",

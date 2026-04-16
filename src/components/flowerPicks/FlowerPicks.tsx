@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface Flower {
   name: string;
@@ -11,34 +11,34 @@ interface Flower {
 }
 
 const flowers: Flower[] = [
-  { name: '장미', meaning: '사랑' },
-  { name: '튤립', meaning: '명예' },
-  { name: '해바라기', meaning: '숭배' },
-  { name: '카네이션', meaning: '어머니의 사랑' },
-  { name: '백합', meaning: '순결' },
-  { name: '데이지', meaning: '희망' },
-  { name: '제비꽃', meaning: '겸손' },
-  { name: '국화', meaning: '충성' },
-  { name: '벚꽃', meaning: '생명의 아름다움' },
-  { name: '수선화', meaning: '자만심' },
+  { name: "장미", meaning: "사랑" },
+  { name: "튤립", meaning: "명예" },
+  { name: "해바라기", meaning: "숭배" },
+  { name: "카네이션", meaning: "어머니의 사랑" },
+  { name: "백합", meaning: "순결" },
+  { name: "데이지", meaning: "희망" },
+  { name: "제비꽃", meaning: "겸손" },
+  { name: "국화", meaning: "충성" },
+  { name: "벚꽃", meaning: "생명의 아름다움" },
+  { name: "수선화", meaning: "자만심" },
 ];
 
 export default function FlowerPicks() {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [recommendations, setRecommendations] = useState<Flower[]>([]);
 
   const searchFlowers = () => {
     if (!searchTerm.trim()) return;
-    const filtered = flowers.filter(flower =>
-      flower.meaning.toLowerCase().includes(searchTerm.toLowerCase())
+    const filtered = flowers.filter((flower) =>
+      flower.meaning.toLowerCase().includes(searchTerm.toLowerCase()),
     );
     setRecommendations(filtered);
   };
 
   return (
-    <div className="p-4">
+    <div className="p-4 text-center">
       <h1 className="text-2xl font-bold mb-4">Flower Picks</h1>
-      <Card className="mb-4">
+      <Card className="mb-4 rounded-2xl">
         <CardHeader>
           <CardTitle>꽃말로 꽃 찾기</CardTitle>
         </CardHeader>
@@ -52,8 +52,8 @@ export default function FlowerPicks() {
         </CardContent>
       </Card>
       <div className="grid gap-4">
-        {recommendations.map(flower => (
-          <Card key={flower.name}>
+        {recommendations.map((flower) => (
+          <Card key={flower.name} className="rounded-2xl">
             <CardHeader>
               <CardTitle>{flower.name}</CardTitle>
             </CardHeader>
