@@ -77,5 +77,7 @@ minihub_[app id]
 
 - 기본 rounded-2xl의 둥근 느낌 유지
 - 버튼은 rounded-full 사용
+- 버튼 내부 텍스트는 bold 사용
+- 버튼 호버 시, cursor-pointer 적용
 - 텍스트는 모두 가운데 정렬
-- layout의 max-width는 1280px
+- layout의 max-width는 1200px
