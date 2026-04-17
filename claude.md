@@ -66,10 +66,10 @@ minihub_[app id]
 ```js
 // apps.ts 예시
 {
-  id: 'new',
+  id: '새 앱 아이디',
   name: '새 앱 이름',
   description: '한 줄 설명',
-  icon: <component />
+  icon: "앱 아이콘"
 }
 ```
 
@@ -81,3 +81,4 @@ minihub_[app id]
 - 버튼 호버 시, cursor-pointer 적용
 - 텍스트는 모두 가운데 정렬
 - layout의 max-width는 1200px
+- 모든 input의 focus 스타일 제거
