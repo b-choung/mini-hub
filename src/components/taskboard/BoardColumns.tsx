@@ -71,7 +71,7 @@ export default function BoardColumns({
     <div className="flex gap-4 overflow-x-auto">
       {columns.map((column) => (
         <div key={column.id} className="flex-1 min-w-64">
-          <Card className="rounded-2xl border-none">
+          <Card className="rounded-2xl ring-0 shadow-none">
             <CardHeader>
               <CardTitle>{column.title}</CardTitle>
             </CardHeader>

@@ -28,12 +28,7 @@ export default function AddCardForm({ columns, onAddCard }: AddCardFormProps) {
   };
 
   return (
-    <form className="mb-4 flex gap-2" onSubmit={handleSubmit}>
-      <Input
-        value={newCardText}
-        onChange={(e) => setNewCardText(e.target.value)}
-        placeholder="새 카드 추가"
-      />
+    <form className="mb-4 flex gap-2 items-center" onSubmit={handleSubmit}>
       <select
         value={selectedColumn}
         onChange={(e) => setSelectedColumn(e.target.value)}
@@ -45,6 +40,11 @@ export default function AddCardForm({ columns, onAddCard }: AddCardFormProps) {
           </option>
         ))}
       </select>
+      <Input
+        value={newCardText}
+        onChange={(e) => setNewCardText(e.target.value)}
+        placeholder="새 카드 추가"
+      />
       <Button type="submit">추가</Button>
     </form>
   );
