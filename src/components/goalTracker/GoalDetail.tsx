@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Goal } from "./GoalTracker";
+import { MdArrowBack } from "react-icons/md";
 
 interface GoalDetailProps {
   goal: Goal;
@@ -41,58 +42,75 @@ export default function GoalDetail({
   const progress = Math.round((goal.checkins.length / goal.duration) * 100);
 
   return (
-    <div className="px-4 py-12 text-center">
-      <Button variant="outline" onClick={onBack} className="mb-4">
-        ← 목록으로
-      </Button>
-      <h2 className="text-xl font-bold mb-1">{goal.name}</h2>
-      <p className="text-sm mb-6">
-        달성: {goal.checkins.length}/{goal.duration}일 ({progress}%)
-      </p>
-      <div className="overflow-x-auto">
-        <table className="mx-auto border-collapse">
-          <thead>
-            <tr>
-              {DOW_LABELS.map((d) => (
-                <th
-                  key={d}
-                  className="w-9 h-9 text-xs text-gray-400 font-normal"
-                >
-                  {d}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {weeks.map((week, wi) => (
-              <tr key={wi}>
-                {week.map((date, di) => {
-                  if (!date) return <td key={di} className="w-9 h-9" />;
-                  const isChecked = goal.checkins.includes(date);
-                  const isFuture = date > today;
-                  const dayNum = days.indexOf(date) + 1;
-                  return (
-                    <td key={di} className="w-9 h-9 p-0.5">
-                      <button
-                        onClick={() =>
-                          !isFuture && onToggleCheckin(goal.id, date)
-                        }
-                        disabled={isFuture}
-                        className={`w-full h-full rounded-full text-xs font-medium transition-colors
-                          ${isChecked ? "bg-primary text-primary-foreground" : "hover:bg-gray-100"}
-                          ${isFuture ? "text-gray-300 cursor-default" : "cursor-pointer"}
-                        `}
-                        title={date}
-                      >
-                        {dayNum}
-                      </button>
-                    </td>
-                  );
-                })}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+    <div className="px-4 py-12">
+      <div className="w-fit mx-auto">
+        <div className="mb-6">
+          <Button variant="outline" size="icon" onClick={onBack}>
+            <MdArrowBack />
+          </Button>
+        </div>
+        <div className="text-center">
+          <h2 className="text-xl font-bold mb-1">{goal.name}</h2>
+          <p className="text-sm text-gray-500 mb-4">
+            {goal.startDate} · {goal.duration}일 목표
+          </p>
+          <div className="max-w-xs mx-auto mb-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-primary rounded-full transition-all"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+          <p className="text-sm text-blue-500 font-bold mb-6">
+            {goal.checkins.length}/{goal.duration}일 ({progress}%)
+          </p>
+          <div className="overflow-x-auto">
+            <table className="mx-auto border-collapse">
+              <thead>
+                <tr>
+                  {DOW_LABELS.map((d) => (
+                    <th
+                      key={d}
+                      className="w-9 h-9 text-xs text-gray-400 font-normal"
+                    >
+                      {d}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {weeks.map((week, wi) => (
+                  <tr key={wi}>
+                    {week.map((date, di) => {
+                      if (!date) return <td key={di} className="w-9 h-9" />;
+                      const isChecked = goal.checkins.includes(date);
+                      const isFuture = date > today;
+                      const isToday = date === today;
+                      const dayNum = days.indexOf(date) + 1;
+                      return (
+                        <td key={di} className="w-9 h-9 p-0.5">
+                          <button
+                            onClick={() =>
+                              !isFuture && onToggleCheckin(goal.id, date)
+                            }
+                            disabled={isFuture}
+                            className={`w-full h-full rounded-full text-xs font-medium transition-colors
+                            ${isChecked ? "bg-primary text-primary-foreground" : "hover:bg-gray-100"}
+                            ${isToday && !isChecked ? "ring-2 ring-primary text-primary" : ""}
+                            ${isFuture ? "text-gray-300 cursor-default" : "cursor-pointer"}
+                          `}
+                            title={date}
+                          >
+                            {dayNum}
+                          </button>
+                        </td>
+                      );
+                    })}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   );

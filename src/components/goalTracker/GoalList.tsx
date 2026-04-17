@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Goal } from "./GoalTracker";
 import AppLayout from "@/components/common/AppLayout";
+import { MdDelete } from "react-icons/md";
 
 interface GoalListProps {
   goals: Goal[];
@@ -34,11 +35,13 @@ export default function GoalList({
 
   return (
     <AppLayout title="Goal Tracker">
-      <div className="flex flex-wrap justify-center gap-4">
-        <div className="w-[calc((100%-2rem)/3)] flex flex-col">
-          <Card className="rounded-2xl">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="flex flex-col h-full">
+          <Card className="rounded-2xl border-2 border-dashed bg-gray-50 shadow-none h-full">
             <CardHeader>
-              <CardTitle>새 목표 추가</CardTitle>
+              <CardTitle className="text-base text-gray-500">
+                새 목표 추가
+              </CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
               <Input
@@ -80,33 +83,39 @@ export default function GoalList({
             (goal.checkins.length / goal.duration) * 100,
           );
           return (
-            <div
-              key={goal.id}
-              className="w-[calc((100%-2rem)/3)] flex flex-col"
-            >
+            <div key={goal.id} className="flex flex-col h-full">
               <Card
-                className="rounded-2xl cursor-pointer hover:shadow-md transition-shadow"
+                className="rounded-2xl cursor-pointer hover:shadow-md hover:-translate-y-1 transition-all relative h-full"
                 onClick={() => onSelectGoal(goal.id)}
               >
-                <CardHeader>
-                  <CardTitle className="text-lg font-bold">{goal.name}</CardTitle>
+                <button
+                  className="absolute top-3 right-3 p-1.5 rounded-full text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onDeleteGoal(goal.id);
+                  }}
+                >
+                  <MdDelete size={18} />
+                </button>
+                <CardHeader className="pr-10">
+                  <CardTitle className="text-lg font-bold text-left">
+                    {goal.name}
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm">시작일: {goal.startDate}</p>
-                  <p className="text-sm">목표 기간: {goal.duration}일</p>
-                  <p className="text-sm mt-1 text-blue-500 font-bold">
-                    달성: {goal.checkins.length}/{goal.duration}일 ({progress}%)
+                  <p className="text-sm text-left">시작일: {goal.startDate}</p>
+                  <p className="text-sm text-left">
+                    목표 기간: {goal.duration}일
                   </p>
-                  <Button
-                    variant="destructive"
-                    className="mt-3 rounded-full"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onDeleteGoal(goal.id);
-                    }}
-                  >
-                    삭제
-                  </Button>
+                  <div className="mt-10 mb-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-primary rounded-full transition-all"
+                      style={{ width: `${progress}%` }}
+                    />
+                  </div>
+                  <p className="text-sm text-blue-500 font-bold text-right">
+                    {goal.checkins.length}/{goal.duration}일 ({progress}%)
+                  </p>
                 </CardContent>
               </Card>
             </div>
