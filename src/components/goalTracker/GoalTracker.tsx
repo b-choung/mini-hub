@@ -1,120 +1,72 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Slider } from "@/components/ui/slider";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import GoalList from "./GoalList";
+import GoalDetail from "./GoalDetail";
 
 const STORAGE_KEY = "minihub_goalTracker";
 
-interface Goal {
+export interface Goal {
   id: string;
   name: string;
-  description: string;
-  deadline: string;
-  progress: number;
+  startDate: string;
+  duration: 30 | 50 | 100;
+  checkins: string[];
 }
 
 export default function GoalTracker() {
   const [goals, setGoals] = useState<Goal[]>([]);
-  const [newGoal, setNewGoal] = useState<Omit<Goal, "id">>({
-    name: "",
-    description: "",
-    deadline: "",
-    progress: 0,
-  });
+  const [selectedGoalId, setSelectedGoalId] = useState<string | null>(null);
 
   useEffect(() => {
     const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      setGoals(JSON.parse(saved));
-    }
+    if (saved) setGoals(JSON.parse(saved));
   }, []);
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(goals));
   }, [goals]);
 
-  const addGoal = () => {
-    if (!newGoal.name.trim()) return;
-    const goal: Goal = { ...newGoal, id: Date.now().toString() };
-    setGoals((prev) => [...prev, goal]);
-    setNewGoal({ name: "", description: "", deadline: "", progress: 0 });
-  };
+  const addGoal = (data: Omit<Goal, "id" | "checkins">) => {
+    const goal: Goal = { ...data, id: Date.now().toString(), checkins: [] };
 
-  const updateProgress = (id: string, progress: number) => {
-    setGoals((prev) => prev.map((g) => (g.id === id ? { ...g, progress } : g)));
+    setGoals((prev) => [...prev, goal]);
   };
 
   const deleteGoal = (id: string) => {
     setGoals((prev) => prev.filter((g) => g.id !== id));
   };
 
+  const toggleCheckin = (goalId: string, date: string) => {
+    setGoals((prev) =>
+      prev.map((g) => {
+        if (g.id !== goalId) return g;
+        const checkins = g.checkins.includes(date)
+          ? g.checkins.filter((d) => d !== date)
+          : [...g.checkins, date];
+        return { ...g, checkins };
+      }),
+    );
+  };
+
+  const selectedGoal = goals.find((g) => g.id === selectedGoalId) ?? null;
+
+  if (selectedGoal) {
+    return (
+      <GoalDetail
+        goal={selectedGoal}
+        onBack={() => setSelectedGoalId(null)}
+        onToggleCheckin={toggleCheckin}
+      />
+    );
+  }
+
   return (
-    <div className="p-4 text-center">
-      <h1 className="text-2xl font-bold mb-4">Goal Tracker</h1>
-      <Card className="mb-4 rounded-2xl">
-        <CardHeader>
-          <CardTitle>새 목표 추가</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-2">
-          <Input
-            placeholder="목표 이름"
-            value={newGoal.name}
-            onChange={(e) =>
-              setNewGoal((prev) => ({ ...prev, name: e.target.value }))
-            }
-          />
-          <Textarea
-            placeholder="설명"
-            value={newGoal.description}
-            onChange={(e) =>
-              setNewGoal((prev) => ({ ...prev, description: e.target.value }))
-            }
-          />
-          <Input
-            type="date"
-            value={newGoal.deadline}
-            onChange={(e) =>
-              setNewGoal((prev) => ({ ...prev, deadline: e.target.value }))
-            }
-          />
-          <Button onClick={addGoal}>추가</Button>
-        </CardContent>
-      </Card>
-      <div className="grid gap-4">
-        {goals.map((goal) => (
-          <Card key={goal.id} className="rounded-2xl">
-            <CardHeader>
-              <CardTitle className="flex justify-between">
-                {goal.name}
-                <Button
-                  variant="destructive"
-                  size="sm"
-                  onClick={() => deleteGoal(goal.id)}
-                >
-                  삭제
-                </Button>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="mb-2">{goal.description}</p>
-              <p className="mb-2">마감일: {goal.deadline}</p>
-              <div className="mb-2">
-                <label>진행률: {goal.progress}%</label>
-                <Slider
-                  value={[goal.progress]}
-                  onValueChange={(value) => updateProgress(goal.id, value[0])}
-                  max={100}
-                  step={1}
-                />
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-    </div>
+    <GoalList
+      goals={goals}
+      onAddGoal={addGoal}
+      onDeleteGoal={deleteGoal}
+      onSelectGoal={setSelectedGoalId}
+    />
   );
 }
