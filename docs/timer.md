@@ -35,6 +35,7 @@ interface TimerStorage {
 - 버튼은 `rounded-full`
 - 메인 카드 `rounded-2xl`
 - 텍스트 가운데 정렬
+- 타이머는 원형
 
 ## 확장 아이디어
 
