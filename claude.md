@@ -19,6 +19,7 @@
 - Local Storage만 사용합니다.
 - 로그인/인증은 금지합니다.
 - 데이터베이스는 사용하지 않습니다.
+- 단일 컴포넌트 200줄 초과 금지 (초과시 컴포넌트 분리)
 
 ## 파일 구조
 
@@ -42,7 +43,7 @@ src/
 ## 앱 목록
 
 - [ ] Task Board
-- [ ] Pomodoro Timer
+- [ ] Timer
 - [ ] Goal Tracker
 - [ ] Mood Tracker
 - [ ] Flower Picks
@@ -68,5 +69,13 @@ minihub_[app id]
   id: 'new',
   name: '새 앱 이름',
   description: '한 줄 설명',
+  icon: <component />
 }
 ```
+
+## UI 규칙
+
+- 기본 rounded-2xl의 둥근 느낌 유지
+- 버튼은 rounded-full 사용
+- 텍스트는 모두 가운데 정렬
+- layout의 max-width는 1280px
