@@ -4,6 +4,7 @@ import { DragEvent, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { MdEdit, MdDelete } from "react-icons/md";
 
 interface TaskCard {
   id: string;
@@ -67,13 +68,21 @@ export default function BoardColumns({
     }
   };
 
+  const columnColors: Record<string, string> = {
+    todo: "bg-blue-50",
+    inprogress: "bg-amber-50",
+    done: "bg-green-50",
+  };
+
   return (
     <div className="flex gap-4 overflow-x-auto">
       {columns.map((column) => (
         <div key={column.id} className="flex-1 min-w-64">
-          <Card className="rounded-2xl ring-0 shadow-none">
-            <CardHeader>
-              <CardTitle>{column.title}</CardTitle>
+          <Card
+            className={`rounded-2xl ring-0 shadow-none ${columnColors[column.id] ?? ""}`}
+          >
+            <CardHeader className="pb-6">
+              <CardTitle className="font-bold">{column.title}</CardTitle>
             </CardHeader>
             <CardContent
               className="min-h-40"
@@ -82,13 +91,13 @@ export default function BoardColumns({
             >
               {column.cards.length === 0 && (
                 <div className="py-8 text-sm text-muted-foreground">
-                  카드를 여기에 드롭하세요
+                  카드를 드롭하세요
                 </div>
               )}
               {column.cards.map((card) => (
                 <div
                   key={card.id}
-                  className="p-2 bg-gray-100 mb-2 rounded-2xl flex flex-col gap-2 text-left sm:flex-row sm:items-center sm:justify-between"
+                  className="p-2 bg-white mb-2 rounded-2xl flex flex-col gap-2 text-left sm:flex-row sm:items-center sm:justify-between"
                   draggable
                   onDragStart={() => handleDragStart(card.id, column.id)}
                 >
@@ -107,22 +116,24 @@ export default function BoardColumns({
                       <span>{card.text}</span>
                     )}
                   </div>
-                  <div className="flex flex-wrap justify-end gap-2">
+                  <div className="flex flex-wrap justify-end gap-1">
                     {!editingCardId && (
                       <Button
-                        size="sm"
+                        size="icon"
                         variant="outline"
+                        className="size-8"
                         onClick={() => startEdit(card.id, card.text)}
                       >
-                        ✏️
+                        <MdEdit />
                       </Button>
                     )}
                     <Button
-                      size="sm"
+                      size="icon"
                       variant="destructive"
+                      className="size-8"
                       onClick={() => onDeleteCard(card.id)}
                     >
-                      🗑️
+                      <MdDelete />
                     </Button>
                   </div>
                 </div>

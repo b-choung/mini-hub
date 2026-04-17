@@ -3,6 +3,7 @@
 import { FormEvent, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { MdAdd } from "react-icons/md";
 
 interface Column {
   id: string;
@@ -32,7 +33,7 @@ export default function AddCardForm({ columns, onAddCard }: AddCardFormProps) {
       <select
         value={selectedColumn}
         onChange={(e) => setSelectedColumn(e.target.value)}
-        className="border p-2 rounded outline-none focus:outline-none"
+        className="h-8 border px-2.5 rounded-lg text-sm outline-none focus:outline-none"
       >
         {columns.map((col) => (
           <option key={col.id} value={col.id}>
@@ -45,7 +46,7 @@ export default function AddCardForm({ columns, onAddCard }: AddCardFormProps) {
         onChange={(e) => setNewCardText(e.target.value)}
         placeholder="새 카드 추가"
       />
-      <Button type="submit">추가</Button>
+      <Button type="submit" size="icon"><MdAdd /></Button>
     </form>
   );
 }
