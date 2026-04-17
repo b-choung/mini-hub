@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import AppLayout from "@/components/common/AppLayout";
 
 interface Flower {
   name: string;
@@ -36,8 +37,7 @@ export default function FlowerPicks() {
   };
 
   return (
-    <div className="p-4 text-center">
-      <h1 className="text-2xl font-bold mb-4">Flower Picks</h1>
+    <AppLayout title="Flower Picks">
       <Card className="mb-4 rounded-2xl">
         <CardHeader>
           <CardTitle>꽃말로 꽃 찾기</CardTitle>
@@ -63,6 +63,6 @@ export default function FlowerPicks() {
           </Card>
         ))}
       </div>
-    </div>
+    </AppLayout>
   );
 }

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Goal } from "./GoalTracker";
+import AppLayout from "@/components/common/AppLayout";
 
 interface GoalListProps {
   goals: Goal[];
@@ -32,8 +33,7 @@ export default function GoalList({
   };
 
   return (
-    <div className="p-4 text-center">
-      <h1 className="text-2xl font-bold mb-4">Goal Tracker</h1>
+    <AppLayout title="Goal Tracker">
       <div className="flex flex-wrap justify-center gap-4">
         <div className="w-[calc((100%-2rem)/3)] flex flex-col">
           <Card className="rounded-2xl">
@@ -113,6 +113,6 @@ export default function GoalList({
           );
         })}
       </div>
-    </div>
+    </AppLayout>
   );
 }

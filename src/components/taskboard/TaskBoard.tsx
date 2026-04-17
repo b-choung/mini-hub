@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import AddCardForm from "./AddCardForm";
 import BoardColumns from "./BoardColumns";
+import AppLayout from "@/components/common/AppLayout";
 
 const STORAGE_KEY = "minihub_taskboard";
 
@@ -92,8 +93,7 @@ export default function TaskBoard() {
   };
 
   return (
-    <div className="p-4 text-center">
-      <h1 className="text-2xl font-bold mb-4">Task Board</h1>
+    <AppLayout title="Task Board">
       <AddCardForm columns={columns} onAddCard={handleAddCard} />
       <BoardColumns
         columns={columns}
@@ -101,6 +101,6 @@ export default function TaskBoard() {
         onMoveCard={handleMoveCard}
         onDeleteCard={handleDeleteCard}
       />
-    </div>
+    </AppLayout>
   );
 }

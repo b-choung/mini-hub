@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import TimerRing from "./TimerRing";
 import TimerControls from "./TimerControls";
+import AppLayout from "@/components/common/AppLayout";
 
 const STORAGE_KEY = "minihub_timer";
 const DEFAULT_WORK_TIME = 25;
@@ -88,8 +89,7 @@ export default function Timer() {
   };
 
   return (
-    <div className="p-4 text-center">
-      <h1 className="text-2xl font-bold mb-6">Timer</h1>
+    <AppLayout title="Timer">
       <div className="flex flex-col items-center gap-6">
         <TimerRing timeLeft={timeLeft} maxTime={maxTime} />
         <TimerControls
@@ -101,6 +101,6 @@ export default function Timer() {
           onAddMinutes={addMinutes}
         />
       </div>
-    </div>
+    </AppLayout>
   );
 }

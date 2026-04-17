@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import AppLayout from "@/components/common/AppLayout";
 
 const STORAGE_KEY = "minihub_memo";
 
@@ -64,8 +65,7 @@ export default function MemoApp() {
   };
 
   return (
-    <div className="p-4 text-center">
-      <h1 className="text-2xl font-bold mb-4">Memo</h1>
+    <AppLayout title="Memo">
       <Card className="mb-4 rounded-2xl">
         <CardHeader>
           <CardTitle>새 메모</CardTitle>
@@ -145,6 +145,6 @@ export default function MemoApp() {
           </Card>
         ))}
       </div>
-    </div>
+    </AppLayout>
   );
 }

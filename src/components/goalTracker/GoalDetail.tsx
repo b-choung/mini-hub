@@ -41,7 +41,7 @@ export default function GoalDetail({
   const progress = Math.round((goal.checkins.length / goal.duration) * 100);
 
   return (
-    <div className="p-4 text-center">
+    <div className="px-4 py-12 text-center">
       <Button variant="outline" onClick={onBack} className="mb-4">
         ← 목록으로
       </Button>
