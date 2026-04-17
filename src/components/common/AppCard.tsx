@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import Link from "next/link";
 import { App } from "@/types/apps";
 import * as MdIcons from "react-icons/md";
@@ -14,14 +13,14 @@ const AppCard = ({ app }: AppCardProps) => {
 
   return (
     <Link href={`/${app.id}`} className="inline-block">
-      <div className="px-8 py-10 border rounded-2xl shadow cursor-pointer hover:shadow-lg transition-shadow w-64 flex flex-col text-center items-center justify-center gap-4">
-        <h2 className="text-xl font-semibold line-clamp-2">{app.name}</h2>
+      <div className="px-8 py-10 rounded-2xl shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-200 cursor-pointer w-64 flex flex-col text-center items-center justify-center gap-4 bg-white">
         {IconComponent && (
-          <div className="text-5xl">
+          <div className={`${app.color} rounded-full p-4 text-4xl flex items-center justify-center`}>
             <IconComponent />
           </div>
         )}
-        <p className="text-sm text-gray-600 line-clamp-2 break-keep">
+        <h2 className="text-xl font-semibold line-clamp-2">{app.name}</h2>
+        <p className="text-sm text-gray-500 line-clamp-2 break-keep">
           {app.description}
         </p>
       </div>

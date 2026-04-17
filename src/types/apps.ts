@@ -3,4 +3,5 @@ export interface App {
   name: string;
   description: string;
   icon: string;
+  color: string;
 }
