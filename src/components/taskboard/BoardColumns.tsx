@@ -68,19 +68,17 @@ export default function BoardColumns({
     }
   };
 
-  const columnColors: Record<string, string> = {
-    todo: "bg-blue-50",
-    inprogress: "bg-amber-50",
-    done: "bg-green-50",
+  const columnAccents: Record<string, string> = {
+    todo: "border-l-4 border-blue-400",
+    inprogress: "border-l-4 border-amber-400",
+    done: "border-l-4 border-green-400",
   };
 
   return (
     <div className="flex gap-4 overflow-x-auto">
       {columns.map((column) => (
         <div key={column.id} className="flex-1 min-w-64">
-          <Card
-            className={`rounded-2xl ring-0 shadow-none ${columnColors[column.id] ?? ""}`}
-          >
+          <Card className="rounded-2xl ring-0 shadow-none">
             <CardHeader className="pb-6">
               <CardTitle className="font-bold">{column.title}</CardTitle>
             </CardHeader>
@@ -97,7 +95,7 @@ export default function BoardColumns({
               {column.cards.map((card) => (
                 <div
                   key={card.id}
-                  className="p-2 bg-white mb-2 rounded-2xl flex flex-col gap-2 text-left sm:flex-row sm:items-center sm:justify-between"
+                  className={`group p-3 bg-white mb-2 rounded-2xl flex flex-col gap-2 text-left sm:flex-row sm:items-center sm:justify-between shadow-sm hover:shadow-md transition-all cursor-grab ${columnAccents[column.id] ?? ""} ${draggedCard?.cardId === card.id ? "opacity-50" : ""}`}
                   draggable
                   onDragStart={() => handleDragStart(card.id, column.id)}
                 >
@@ -116,7 +114,7 @@ export default function BoardColumns({
                       <span>{card.text}</span>
                     )}
                   </div>
-                  <div className="flex flex-wrap justify-end gap-1">
+                  <div className="flex flex-wrap justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                     {!editingCardId && (
                       <Button
                         size="icon"
