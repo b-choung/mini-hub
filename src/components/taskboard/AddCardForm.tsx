@@ -32,7 +32,7 @@ export default function AddCardForm({ columns, onAddCard }: AddCardFormProps) {
       <select
         value={selectedColumn}
         onChange={(e) => setSelectedColumn(e.target.value)}
-        className="border p-2 rounded"
+        className="border p-2 rounded outline-none focus:outline-none"
       >
         {columns.map((col) => (
           <option key={col.id} value={col.id}>

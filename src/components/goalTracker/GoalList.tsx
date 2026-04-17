@@ -64,7 +64,7 @@ export default function GoalList({
                       duration: Number(e.target.value) as 30 | 50 | 100,
                     }))
                   }
-                  className="border p-2 rounded-full cursor-pointer"
+                  className="border p-2 rounded-full cursor-pointer outline-none focus:outline-none"
                 >
                   <option value={30}>30일</option>
                   <option value={50}>50일</option>
