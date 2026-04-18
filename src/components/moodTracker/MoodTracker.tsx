@@ -33,9 +33,12 @@ export default function MoodTracker() {
   return (
     <AppLayout title="Mood Tracker">
       <div className="max-w-lg mx-auto">
-        <MoodForm onAdd={addEntry} registeredDates={new Set(entries.map((e) => e.date))} />
-        <MoodChart entries={entries} />
+        <MoodForm
+          onAdd={addEntry}
+          registeredDates={new Set(entries.map((e) => e.date))}
+        />
         <MoodCalendar entries={entries} onDelete={deleteEntry} />
+        <MoodChart entries={entries} />
       </div>
     </AppLayout>
   );

@@ -70,7 +70,7 @@ export default function MoodCalendar({ entries, onDelete }: MoodCalendarProps) {
     : null;
 
   return (
-    <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-6">
+    <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-6 mb-4">
       <div className="flex items-center justify-between mb-5">
         <p className="text-sm font-semibold text-gray-700">기분 달력</p>
         <div className="flex items-center gap-2">
@@ -118,9 +118,7 @@ export default function MoodCalendar({ entries, onDelete }: MoodCalendarProps) {
                 return (
                   <td key={di} className="p-0.5 h-12">
                     <button
-                      onClick={() =>
-                        setSelectedDate(isSelected ? null : date)
-                      }
+                      onClick={() => setSelectedDate(isSelected ? null : date)}
                       className={`w-full h-full rounded-xl flex flex-col items-center justify-center transition-all cursor-pointer gap-0.5
                         ${isSelected ? "ring-2 ring-primary bg-primary/5" : ""}
                         ${entry && !isSelected ? `${MOOD_BG[entry.mood] ?? "bg-gray-50"} hover:opacity-80` : ""}
@@ -149,14 +147,18 @@ export default function MoodCalendar({ entries, onDelete }: MoodCalendarProps) {
       </table>
 
       {selectedEntry && selectedMood && (
-        <div className={`mt-4 rounded-xl px-4 py-3 flex items-start gap-3 ${MOOD_BG[selectedEntry.mood] ?? "bg-gray-50"}`}>
+        <div
+          className={`mt-4 rounded-xl px-4 py-3 flex items-start gap-3 ${MOOD_BG[selectedEntry.mood] ?? "bg-gray-50"}`}
+        >
           <span className="text-2xl shrink-0">{selectedMood.emoji}</span>
           <div className="flex-1 text-left">
             <div className="flex items-center gap-2 mb-0.5">
               <span className="text-sm font-semibold text-gray-700">
                 {selectedEntry.mood}
               </span>
-              <span className="text-xs text-gray-400">{selectedEntry.date}</span>
+              <span className="text-xs text-gray-400">
+                {selectedEntry.date}
+              </span>
             </div>
             {selectedEntry.diary && (
               <p className="text-sm text-gray-500">{selectedEntry.diary}</p>

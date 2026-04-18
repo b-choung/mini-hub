@@ -34,25 +34,37 @@ interface MoodChartProps {
 }
 
 export default function MoodChart({ entries }: MoodChartProps) {
+  const today = new Date().toISOString().split("T")[0];
+  const currentMonth = today.slice(0, 7);
+  const currentYear = new Date().getFullYear();
+
   const [period, setPeriod] = useState<Period>("weekly");
+  const [refDate, setRefDate] = useState(today);
+  const [refMonth, setRefMonth] = useState(currentMonth);
+  const [refYear, setRefYear] = useState(currentYear);
+
+  const availableYears = useMemo(() => {
+    const years = new Set(entries.map((e) => parseInt(e.date.slice(0, 4))));
+    years.add(currentYear);
+    return Array.from(years).sort((a, b) => b - a);
+  }, [entries, currentYear]);
 
   const filteredEntries = useMemo(() => {
-    const now = new Date();
     return entries.filter((e) => {
-      const d = new Date(e.date);
+      const d = new Date(e.date + "T12:00:00");
       if (period === "weekly") {
-        const ago = new Date(now);
-        ago.setDate(now.getDate() - 6);
-        return d >= ago;
+        const ref = new Date(refDate + "T12:00:00");
+        const start = new Date(ref);
+        start.setDate(ref.getDate() - 6);
+        return d >= start && d <= ref;
       } else if (period === "monthly") {
-        const ago = new Date(now);
-        ago.setDate(now.getDate() - 29);
-        return d >= ago;
+        const [y, m] = refMonth.split("-").map(Number);
+        return d.getFullYear() === y && d.getMonth() === m - 1;
       } else {
-        return d.getFullYear() === now.getFullYear();
+        return d.getFullYear() === refYear;
       }
     });
-  }, [entries, period]);
+  }, [entries, period, refDate, refMonth, refYear]);
 
   const chartData = useMemo(() => {
     const counts: Record<string, number> = {};
@@ -72,7 +84,7 @@ export default function MoodChart({ entries }: MoodChartProps) {
 
   return (
     <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-6 mb-4">
-      <div className="flex items-center justify-between mb-5">
+      <div className="flex items-center justify-between mb-3">
         <div className="text-left">
           <p className="text-sm font-semibold text-gray-700">기분 통계</p>
           {total > 0 && (
@@ -84,18 +96,54 @@ export default function MoodChart({ entries }: MoodChartProps) {
             </p>
           )}
         </div>
-        <div className="flex gap-1 bg-gray-100 rounded-full p-0.5">
-          {PERIODS.map(({ key, label }) => (
-            <button
-              key={key}
-              onClick={() => setPeriod(key)}
-              className={`px-3 py-1 rounded-full text-xs font-semibold transition-all cursor-pointer
-                ${period === key ? "bg-white text-gray-700 shadow-sm" : "text-gray-400 hover:text-gray-600"}`}
-            >
-              {label}
-            </button>
-          ))}
+        <div className="flex items-center gap-2">
+          <div className="flex gap-1 bg-gray-100 rounded-full p-0.5">
+            {PERIODS.map(({ key, label }) => (
+              <button
+                key={key}
+                onClick={() => setPeriod(key)}
+                className={`px-3 py-1 rounded-full text-xs font-semibold transition-all cursor-pointer
+                  ${period === key ? "bg-white text-gray-700 shadow-sm" : "text-gray-400 hover:text-gray-600"}`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
         </div>
+      </div>
+
+      <div className="flex justify-end mb-4">
+        {period === "weekly" && (
+          <input
+            type="date"
+            value={refDate}
+            max={today}
+            onChange={(e) => setRefDate(e.target.value)}
+            className="text-xs text-gray-500 border-none outline-none bg-gray-50 rounded-lg px-2.5 py-1.5 cursor-pointer"
+          />
+        )}
+        {period === "monthly" && (
+          <input
+            type="month"
+            value={refMonth}
+            max={currentMonth}
+            onChange={(e) => setRefMonth(e.target.value)}
+            className="text-xs text-gray-500 border-none outline-none bg-gray-50 rounded-lg px-2.5 py-1.5 cursor-pointer"
+          />
+        )}
+        {period === "yearly" && (
+          <select
+            value={refYear}
+            onChange={(e) => setRefYear(parseInt(e.target.value))}
+            className="text-xs text-gray-500 border-none outline-none bg-gray-50 rounded-lg px-2.5 py-1.5 cursor-pointer"
+          >
+            {availableYears.map((year) => (
+              <option key={year} value={year}>
+                {year}년
+              </option>
+            ))}
+          </select>
+        )}
       </div>
 
       {total === 0 ? (
