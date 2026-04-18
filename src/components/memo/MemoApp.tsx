@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import AppLayout from "@/components/common/AppLayout";
+import { MdAdd, MdDelete } from "react-icons/md";
 
 const STORAGE_KEY = "minihub_memo";
 
@@ -18,10 +18,6 @@ interface Memo {
 
 export default function MemoApp() {
   const [memos, setMemos] = useState<Memo[]>([]);
-  const [newMemo, setNewMemo] = useState<Omit<Memo, "id" | "createdAt">>({
-    title: "",
-    content: "",
-  });
   const [editingId, setEditingId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -36,14 +32,14 @@ export default function MemoApp() {
   }, [memos]);
 
   const addMemo = () => {
-    if (!newMemo.title.trim()) return;
     const memo: Memo = {
-      ...newMemo,
       id: Date.now().toString(),
+      title: "새 메모",
+      content: "",
       createdAt: new Date().toISOString(),
     };
     setMemos((prev) => [memo, ...prev]);
-    setNewMemo({ title: "", content: "" });
+    setEditingId(memo.id);
   };
 
   const updateMemo = (id: string, updates: Partial<Memo>) => {
@@ -54,97 +50,83 @@ export default function MemoApp() {
 
   const deleteMemo = (id: string) => {
     setMemos((prev) => prev.filter((m) => m.id !== id));
-  };
-
-  const startEditing = (id: string) => {
-    setEditingId(id);
-  };
-
-  const saveEdit = () => {
-    setEditingId(null);
+    if (editingId === id) setEditingId(null);
   };
 
   return (
-    <AppLayout title="Memo">
-      <Card className="mb-4 rounded-2xl">
-        <CardHeader>
-          <CardTitle>새 메모</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-2">
-          <Input
-            placeholder="제목"
-            value={newMemo.title}
-            onChange={(e) =>
-              setNewMemo((prev) => ({ ...prev, title: e.target.value }))
-            }
-          />
-          <Textarea
-            placeholder="내용"
-            value={newMemo.content}
-            onChange={(e) =>
-              setNewMemo((prev) => ({ ...prev, content: e.target.value }))
-            }
-          />
-          <Button onClick={addMemo}>추가</Button>
-        </CardContent>
-      </Card>
-      <div className="grid gap-4">
-        {memos.map((memo) => (
-          <Card key={memo.id} className="rounded-2xl">
-            <CardHeader>
-              <CardTitle className="flex justify-between">
-                {editingId === memo.id ? (
-                  <Input
-                    value={memo.title}
-                    onChange={(e) =>
-                      updateMemo(memo.id, { title: e.target.value })
-                    }
-                  />
-                ) : (
-                  memo.title
-                )}
-                <div className="flex gap-2">
+    <div className="px-4 py-12">
+      <div className="max-w-[900px] mx-auto">
+        <div className="flex items-center justify-between mb-8">
+          <h1 className="text-2xl font-bold">Memo</h1>
+          <Button size="icon" className="rounded-full" onClick={addMemo}>
+            <MdAdd />
+          </Button>
+        </div>
+        {memos.length === 0 && (
+          <p className="text-center text-gray-400 mt-16">새 메모를 작성해보세요</p>
+        )}
+        <div className="columns-1 sm:columns-2 lg:columns-3 gap-4">
+          {memos.map((memo) => (
+            <div key={memo.id} className="break-inside-avoid mb-4">
+              <Card className="rounded-2xl relative">
+                <button
+                  className="absolute top-3 right-3 p-1.5 rounded-full text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors"
+                  onClick={() => deleteMemo(memo.id)}
+                >
+                  <MdDelete size={18} />
+                </button>
+                <CardHeader className="pr-10">
                   {editingId === memo.id ? (
-                    <Button size="sm" onClick={saveEdit}>
-                      저장
-                    </Button>
+                    <Input
+                      value={memo.title}
+                      onChange={(e) =>
+                        updateMemo(memo.id, { title: e.target.value })
+                      }
+                    />
                   ) : (
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={() => startEditing(memo.id)}
-                    >
-                      편집
-                    </Button>
+                    <CardTitle className="text-left text-base">
+                      {memo.title}
+                    </CardTitle>
                   )}
-                  <Button
-                    variant="destructive"
-                    size="sm"
-                    onClick={() => deleteMemo(memo.id)}
-                  >
-                    삭제
-                  </Button>
-                </div>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              {editingId === memo.id ? (
-                <Textarea
-                  value={memo.content}
-                  onChange={(e) =>
-                    updateMemo(memo.id, { content: e.target.value })
-                  }
-                />
-              ) : (
-                <p>{memo.content}</p>
-              )}
-              <p className="text-sm text-gray-500 mt-2">
-                생성일: {new Date(memo.createdAt).toLocaleDateString()}
-              </p>
-            </CardContent>
-          </Card>
-        ))}
+                </CardHeader>
+                <CardContent>
+                  {editingId === memo.id ? (
+                    <div className="space-y-2">
+                      <Textarea
+                        placeholder="내용을 입력하세요"
+                        value={memo.content}
+                        onChange={(e) =>
+                          updateMemo(memo.id, { content: e.target.value })
+                        }
+                        rows={4}
+                      />
+                      <Button
+                        size="sm"
+                        className="rounded-full font-bold"
+                        onClick={() => setEditingId(null)}
+                      >
+                        저장
+                      </Button>
+                    </div>
+                  ) : (
+                    <div
+                      className="cursor-pointer"
+                      onClick={() => setEditingId(memo.id)}
+                    >
+                      <p className="text-sm text-left text-gray-500 whitespace-pre-wrap">
+                        {memo.content || "내용을 입력하려면 클릭하세요"}
+                      </p>
+                      <p className="text-xs text-gray-400 mt-4 text-left">
+                        {new Date(memo.createdAt).toLocaleDateString()}
+                      </p>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
+          ))}
+        </div>
       </div>
-    </AppLayout>
+    </div>
   );
 }
