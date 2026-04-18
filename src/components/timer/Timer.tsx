@@ -5,54 +5,14 @@ import TimerRing from "./TimerRing";
 import TimerControls from "./TimerControls";
 import AppLayout from "@/components/common/AppLayout";
 
-const STORAGE_KEY = "minihub_timer";
 const DEFAULT_WORK_TIME = 25;
 
-interface TimerStorage {
-  workTime: number;
-  timeLeft: number;
-  maxTime: number;
-  isRunning: boolean;
-}
-
 export default function Timer() {
-  const [workTime, setWorkTime] = useState(DEFAULT_WORK_TIME);
+  const [workTime] = useState(DEFAULT_WORK_TIME);
   const [timeLeft, setTimeLeft] = useState(0);
   const [maxTime, setMaxTime] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const [finished, setFinished] = useState(false);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved) as Partial<TimerStorage>;
-        const savedWorkTime =
-          typeof parsed.workTime === "number" && Number.isFinite(parsed.workTime)
-            ? parsed.workTime : DEFAULT_WORK_TIME;
-        const savedTimeLeft =
-          typeof parsed.timeLeft === "number" && Number.isFinite(parsed.timeLeft)
-            ? parsed.timeLeft : 0;
-        const savedMaxTime =
-          typeof parsed.maxTime === "number" && Number.isFinite(parsed.maxTime)
-            ? parsed.maxTime : 0;
-        setWorkTime(savedWorkTime);
-        setTimeLeft(savedTimeLeft);
-        setMaxTime(savedMaxTime);
-        setIsRunning(parsed.isRunning ?? false);
-      } catch {
-        setWorkTime(DEFAULT_WORK_TIME);
-        setTimeLeft(0);
-        setIsRunning(false);
-      }
-    }
-  }, []);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ workTime, timeLeft, maxTime, isRunning }));
-  }, [workTime, timeLeft, maxTime, isRunning]);
 
   useEffect(() => {
     if (!Number.isFinite(timeLeft)) { setTimeLeft(workTime * 60); return; }

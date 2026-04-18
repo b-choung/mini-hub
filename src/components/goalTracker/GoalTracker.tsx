@@ -15,13 +15,12 @@ export interface Goal {
 }
 
 export default function GoalTracker() {
-  const [goals, setGoals] = useState<Goal[]>([]);
-  const [selectedGoalId, setSelectedGoalId] = useState<string | null>(null);
-
-  useEffect(() => {
+  const [goals, setGoals] = useState<Goal[]>(() => {
+    if (typeof window === "undefined") return [];
     const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) setGoals(JSON.parse(saved));
-  }, []);
+    return saved ? JSON.parse(saved) : [];
+  });
+  const [selectedGoalId, setSelectedGoalId] = useState<string | null>(null);
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(goals));

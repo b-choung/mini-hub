@@ -15,15 +15,12 @@ interface Memo {
 }
 
 export default function MemoApp() {
-  const [memos, setMemos] = useState<Memo[]>([]);
-  const [editingId, setEditingId] = useState<string | null>(null);
-
-  useEffect(() => {
+  const [memos, setMemos] = useState<Memo[]>(() => {
+    if (typeof window === "undefined") return [];
     const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      setMemos(JSON.parse(saved));
-    }
-  }, []);
+    return saved ? JSON.parse(saved) : [];
+  });
+  const [editingId, setEditingId] = useState<string | null>(null);
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(memos));

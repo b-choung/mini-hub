@@ -9,12 +9,11 @@ import MoodCalendar from "./MoodCalendar";
 const STORAGE_KEY = "minihub_moodTracker";
 
 export default function MoodTracker() {
-  const [entries, setEntries] = useState<MoodEntry[]>([]);
-
-  useEffect(() => {
+  const [entries, setEntries] = useState<MoodEntry[]>(() => {
+    if (typeof window === "undefined") return [];
     const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) setEntries(JSON.parse(saved));
-  }, []);
+    return saved ? JSON.parse(saved) : [];
+  });
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));

@@ -25,14 +25,11 @@ const initialColumns: Column[] = [
 ];
 
 export default function TaskBoard() {
-  const [columns, setColumns] = useState<Column[]>(initialColumns);
-
-  useEffect(() => {
+  const [columns, setColumns] = useState<Column[]>(() => {
+    if (typeof window === "undefined") return initialColumns;
     const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      setColumns(JSON.parse(saved));
-    }
-  }, []);
+    return saved ? JSON.parse(saved) : initialColumns;
+  });
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(columns));
