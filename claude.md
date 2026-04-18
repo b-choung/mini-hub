@@ -11,6 +11,9 @@
 - Tailwind 4
 - shadcn/ui
 - Typescript
+- recharts (차트 라이브러리)
+- react-icons (아이콘)
+- @anthropic-ai/sdk (AI 기능)
 
 ## 중요 규칙
 
@@ -69,7 +72,8 @@ minihub_[app id]
   id: '새 앱 아이디',
   name: '새 앱 이름',
   description: '한 줄 설명',
-  icon: "앱 아이콘"
+  icon: "앱 아이콘",
+  color: "bg-color text-color"
 }
 ```
 
@@ -79,6 +83,5 @@ minihub_[app id]
 - 버튼은 rounded-full 사용
 - 버튼 내부 텍스트는 bold 사용
 - 버튼 호버 시, cursor-pointer 적용
-- 텍스트는 모두 가운데 정렬
 - layout의 max-width는 1200px
 - 모든 input의 focus 스타일 제거
