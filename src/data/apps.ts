@@ -43,4 +43,11 @@ export const apps: App[] = [
     icon: "MdNote",
     color: "bg-orange-100 text-orange-500",
   },
+  {
+    id: "randomPlan",
+    name: "Random Plan",
+    description: "원하는 시간과 방향을 입력하면 AI가 활동 플랜을 추천해주는 앱입니다",
+    icon: "MdShuffle",
+    color: "bg-teal-100 text-teal-500",
+  },
 ];

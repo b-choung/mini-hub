@@ -51,6 +51,7 @@ src/
 - [ ] Mood Tracker
 - [ ] Flower Picks
 - [ ] Memo
+- [ ] Random Plan
 
 ## Local Storage 키 네이밍 규칙
 
