@@ -1,5 +1,6 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { NextRequest, NextResponse } from "next/server";
+import { AI_MODEL } from "@/lib/ai";
 
 const client = new Anthropic();
 
@@ -20,7 +21,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const message = await client.messages.create({
-      model: "claude-haiku-4-5-20251001",
+      model: AI_MODEL,
       max_tokens: 512,
       messages: [
         {

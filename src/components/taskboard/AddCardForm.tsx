@@ -4,11 +4,7 @@ import { FormEvent, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { MdAdd } from "react-icons/md";
-
-interface Column {
-  id: string;
-  title: string;
-}
+import { Column } from "./TaskBoard";
 
 interface AddCardFormProps {
   columns: Column[];

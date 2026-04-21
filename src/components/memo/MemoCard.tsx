@@ -5,13 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MdDelete } from "react-icons/md";
-
-interface Memo {
-  id: string;
-  title: string;
-  content: string;
-  createdAt: string;
-}
+import { Memo } from "./MemoApp";
 
 interface MemoCardProps {
   memo: Memo;

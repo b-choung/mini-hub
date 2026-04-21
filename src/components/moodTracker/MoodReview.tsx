@@ -5,14 +5,7 @@ import { Button } from "@/components/ui/button";
 import { MdAutoAwesome } from "react-icons/md";
 import { MoodEntry } from "./MoodForm";
 import { useAiFetch } from "@/lib/useAiFetch";
-
-type Period = "weekly" | "monthly" | "yearly";
-
-const PERIOD_TABS: { key: Period; label: string }[] = [
-  { key: "weekly", label: "주간" },
-  { key: "monthly", label: "월간" },
-  { key: "yearly", label: "연간" },
-];
+import { Period, PERIODS } from "./MoodChart";
 
 interface MoodReviewProps {
   entries: MoodEntry[];
@@ -61,7 +54,7 @@ export default function MoodReview({ entries }: MoodReviewProps) {
       <div className="flex items-center justify-between mb-4">
         <p className="text-sm font-semibold text-gray-700">AI 기분 리뷰</p>
         <div className="flex gap-1">
-          {PERIOD_TABS.map(({ key, label }) => (
+          {PERIODS.map(({ key, label }) => (
             <button
               key={key}
               onClick={() => handlePeriodChange(key)}

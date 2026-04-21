@@ -8,7 +8,7 @@ import { useLocalStorage } from "@/lib/useLocalStorage";
 
 const STORAGE_KEY = "minihub_memo";
 
-interface Memo {
+export interface Memo {
   id: string;
   title: string;
   content: string;

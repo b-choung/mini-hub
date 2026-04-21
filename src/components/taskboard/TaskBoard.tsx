@@ -7,12 +7,12 @@ import AppLayout from "@/components/common/AppLayout";
 
 const STORAGE_KEY = "minihub_taskboard";
 
-interface TaskCard {
+export interface TaskCard {
   id: string;
   text: string;
 }
 
-interface Column {
+export interface Column {
   id: string;
   title: string;
   cards: TaskCard[];

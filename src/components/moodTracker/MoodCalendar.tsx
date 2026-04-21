@@ -3,8 +3,7 @@
 import { useState } from "react";
 import { MdChevronLeft, MdChevronRight, MdDelete } from "react-icons/md";
 import { MoodEntry, MOODS } from "./MoodForm";
-
-const DOW_LABELS = ["일", "월", "화", "수", "목", "금", "토"];
+import { DOW_LABELS } from "@/lib/constants";
 
 const MOOD_BG: Record<string, string> = {
   행복: "bg-yellow-100",

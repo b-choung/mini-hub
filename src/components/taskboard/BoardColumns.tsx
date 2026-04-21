@@ -5,17 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MdEdit, MdDelete } from "react-icons/md";
-
-interface TaskCard {
-  id: string;
-  text: string;
-}
-
-interface Column {
-  id: string;
-  title: string;
-  cards: TaskCard[];
-}
+import { Column } from "./TaskBoard";
 
 interface BoardColumnsProps {
   columns: Column[];

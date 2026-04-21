@@ -12,7 +12,7 @@ import {
 } from "recharts";
 import { MoodEntry, MOODS } from "./MoodForm";
 
-type Period = "weekly" | "monthly" | "yearly";
+export type Period = "weekly" | "monthly" | "yearly";
 
 const MOOD_COLORS: Record<string, string> = {
   행복: "#facc15",
@@ -23,7 +23,7 @@ const MOOD_COLORS: Record<string, string> = {
   화남: "#f87171",
 };
 
-const PERIODS: { key: Period; label: string }[] = [
+export const PERIODS: { key: Period; label: string }[] = [
   { key: "weekly", label: "주간" },
   { key: "monthly", label: "월간" },
   { key: "yearly", label: "연간" },

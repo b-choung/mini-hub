@@ -3,14 +3,13 @@
 import { Button } from "@/components/ui/button";
 import { Goal } from "./GoalTracker";
 import { MdArrowBack } from "react-icons/md";
+import { DOW_LABELS } from "@/lib/constants";
 
 interface GoalDetailProps {
   goal: Goal;
   onBack: () => void;
   onToggleCheckin: (goalId: string, date: string) => void;
 }
-
-const DOW_LABELS = ["일", "월", "화", "수", "목", "금", "토"];
 
 export default function GoalDetail({
   goal,
