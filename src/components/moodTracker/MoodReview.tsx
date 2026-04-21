@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { MdAutoAwesome } from "react-icons/md";
 import { MoodEntry } from "./MoodForm";
+import { useAiFetch } from "@/lib/useAiFetch";
 
 type Period = "weekly" | "monthly" | "yearly";
 
@@ -20,8 +21,7 @@ interface MoodReviewProps {
 export default function MoodReview({ entries }: MoodReviewProps) {
   const [period, setPeriod] = useState<Period>("weekly");
   const [review, setReview] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const { isLoading, error, setError, call } = useAiFetch<{ review: string }>();
 
   const filteredEntries = useMemo(() => {
     const today = new Date();
@@ -41,29 +41,13 @@ export default function MoodReview({ entries }: MoodReviewProps) {
 
   const handleAnalyze = async () => {
     if (filteredEntries.length === 0) return;
-    setIsLoading(true);
-    setError(null);
     setReview(null);
-
-    try {
-      const res = await fetch("/api/mood-review", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          entries: filteredEntries.map((e) => ({ date: e.date, mood: e.mood, diary: e.diary })),
-          period,
-        }),
-      });
-
-      if (!res.ok) throw new Error();
-
-      const data = await res.json();
-      setReview(data.review);
-    } catch {
-      setError("분석에 실패했어요. 다시 시도해주세요.");
-    } finally {
-      setIsLoading(false);
-    }
+    const data = await call(
+      "/api/mood-review",
+      { entries: filteredEntries.map((e) => ({ date: e.date, mood: e.mood, diary: e.diary })), period },
+      "분석에 실패했어요. 다시 시도해주세요."
+    );
+    if (data) setReview(data.review);
   };
 
   const handlePeriodChange = (p: Period) => {

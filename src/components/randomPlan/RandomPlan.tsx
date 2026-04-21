@@ -4,6 +4,7 @@ import { useState } from "react";
 import AppLayout from "@/components/common/AppLayout";
 import PlanForm from "./PlanForm";
 import PlanResult from "./PlanResult";
+import { useAiFetch } from "@/lib/useAiFetch";
 
 export type PlanStyle = "활동적인" | "정적인" | "종합적인";
 
@@ -23,25 +24,13 @@ export interface PlanData {
 
 export default function RandomPlan() {
   const [currentPlan, setCurrentPlan] = useState<PlanData | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [lastParams, setLastParams] = useState<{ duration: number; style: PlanStyle } | null>(null);
+  const { isLoading, error, call } = useAiFetch<{ activities: Activity[] }>();
 
   const generatePlan = async (duration: number, style: PlanStyle) => {
-    setIsLoading(true);
-    setError(null);
     setLastParams({ duration, style });
-
-    try {
-      const res = await fetch("/api/random-plan", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ duration, style }),
-      });
-
-      if (!res.ok) throw new Error("플랜 생성에 실패했어요.");
-
-      const data = await res.json();
+    const data = await call("/api/random-plan", { duration, style }, "플랜 생성에 실패했어요. 다시 시도해주세요.");
+    if (data) {
       setCurrentPlan({
         id: Date.now().toString(),
         duration,
@@ -49,10 +38,6 @@ export default function RandomPlan() {
         activities: data.activities,
         createdAt: new Date().toISOString(),
       });
-    } catch {
-      setError("플랜 생성에 실패했어요. 다시 시도해주세요.");
-    } finally {
-      setIsLoading(false);
     }
   };
 

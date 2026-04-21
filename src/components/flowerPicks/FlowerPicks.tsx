@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import AppLayout from "@/components/common/AppLayout";
+import { useAiFetch } from "@/lib/useAiFetch";
 
 interface Flower {
   name: string;
@@ -19,30 +20,12 @@ interface SearchResult {
 export default function FlowerPicks() {
   const [searchTerm, setSearchTerm] = useState("");
   const [result, setResult] = useState<SearchResult | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const { isLoading, error, call } = useAiFetch<SearchResult>();
 
   const searchFlowers = async (keyword: string = searchTerm) => {
     if (!keyword.trim()) return;
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const res = await fetch("/api/flower-search", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ keyword }),
-      });
-
-      if (!res.ok) throw new Error("검색에 실패했어요.");
-
-      const data = await res.json();
-      setResult(data);
-    } catch {
-      setError("꽃 검색에 실패했어요. 다시 시도해주세요.");
-    } finally {
-      setIsLoading(false);
-    }
+    const data = await call("/api/flower-search", { keyword }, "꽃 검색에 실패했어요. 다시 시도해주세요.");
+    if (data) setResult(data);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
