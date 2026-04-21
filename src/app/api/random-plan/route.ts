@@ -14,6 +14,8 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  const activityCount = duration <= 60 ? "2~4개" : "3~6개";
+
   try {
     const message = await client.messages.create({
       model: AI_MODEL,
@@ -34,7 +36,7 @@ export async function POST(req: NextRequest) {
 
 조건:
 - 활동들의 duration 합계가 정확히 ${duration}분이 되어야 합니다
-- 활동은 3~6개로 구성해주세요
+- 활동은 ${activityCount}로 구성해주세요
 - "${style}" 방향에 맞는 활동으로 구성해주세요
 - duration은 분 단위 정수입니다
 - description은 1~2문장으로 간결하게 작성해주세요
