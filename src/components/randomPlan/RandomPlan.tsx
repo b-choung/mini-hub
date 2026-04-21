@@ -21,30 +21,39 @@ export interface PlanData {
   createdAt: string;
 }
 
-const MOCK_ACTIVITIES: Activity[] = [
-  { title: "스트레칭 & 준비운동", duration: 10, description: "가볍게 몸을 풀어주세요. 관절 위주로 천천히 움직입니다." },
-  { title: "산책", duration: 30, description: "동네를 한 바퀴 걸으며 신선한 공기를 마셔보세요." },
-  { title: "좋아하는 음악 들으며 휴식", duration: 20, description: "편안한 자세로 앉아 좋아하는 플레이리스트를 틀어두세요." },
-];
-
 export default function RandomPlan() {
   const [currentPlan, setCurrentPlan] = useState<PlanData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [lastParams, setLastParams] = useState<{ duration: number; style: PlanStyle } | null>(null);
 
   const generatePlan = async (duration: number, style: PlanStyle) => {
     setIsLoading(true);
+    setError(null);
     setLastParams({ duration, style });
-    // TODO: AI API 연동
-    await new Promise((r) => setTimeout(r, 600));
-    setCurrentPlan({
-      id: Date.now().toString(),
-      duration,
-      style,
-      activities: MOCK_ACTIVITIES,
-      createdAt: new Date().toISOString(),
-    });
-    setIsLoading(false);
+
+    try {
+      const res = await fetch("/api/random-plan", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ duration, style }),
+      });
+
+      if (!res.ok) throw new Error("플랜 생성에 실패했어요.");
+
+      const data = await res.json();
+      setCurrentPlan({
+        id: Date.now().toString(),
+        duration,
+        style,
+        activities: data.activities,
+        createdAt: new Date().toISOString(),
+      });
+    } catch {
+      setError("플랜 생성에 실패했어요. 다시 시도해주세요.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleRegenerate = () => {
@@ -55,6 +64,9 @@ export default function RandomPlan() {
     <AppLayout title="Random Plan">
       <div className="max-w-lg mx-auto">
         <PlanForm onGenerate={generatePlan} isLoading={isLoading} />
+        {error && (
+          <p className="text-sm text-red-400 text-center mb-4">{error}</p>
+        )}
         {currentPlan && (
           <PlanResult
             plan={currentPlan}

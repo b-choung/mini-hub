@@ -54,30 +54,38 @@ export default function PlanResult({ plan, onRegenerate, isLoading }: PlanResult
       </div>
 
       <div className="space-y-1">
-        {plan.activities.map((activity, i) => (
-          <div key={i} className="flex gap-3">
-            <div className="flex flex-col items-center">
-              <div
-                className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0
-                  ${STYLE_NUMBER[plan.style] ?? "bg-gray-100 text-gray-500"}`}
-              >
-                {i + 1}
+        {plan.activities.map((activity, i) => {
+          const cumulative = plan.activities.slice(0, i + 1).reduce((sum, a) => sum + a.duration, 0);
+          const ch = Math.floor(cumulative / 60);
+          const cm = cumulative % 60;
+          const cumulativeLabel = ch > 0 && cm > 0 ? `${ch}시간 ${cm}분` : ch > 0 ? `${ch}시간` : `${cm}분`;
+
+          return (
+            <div key={i} className="flex gap-3">
+              <div className="flex flex-col items-center">
+                <div
+                  className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0
+                    ${STYLE_NUMBER[plan.style] ?? "bg-gray-100 text-gray-500"}`}
+                >
+                  {i + 1}
+                </div>
+                {i < plan.activities.length - 1 && (
+                  <div className="w-px flex-1 bg-gray-100 my-1" />
+                )}
               </div>
-              {i < plan.activities.length - 1 && (
-                <div className="w-px flex-1 bg-gray-100 my-1" />
-              )}
-            </div>
-            <div className="pb-4 text-left">
-              <div className="flex items-center gap-2 mb-0.5">
-                <span className="text-sm font-semibold text-gray-700">
-                  {activity.title}
-                </span>
-                <span className="text-xs text-gray-400">{activity.duration}분</span>
+              <div className="pb-4 text-left">
+                <div className="flex items-center gap-2 mb-0.5">
+                  <span className="text-sm font-semibold text-gray-700">
+                    {activity.title}
+                  </span>
+                  <span className="text-xs text-gray-400">{activity.duration}분</span>
+                  <span className="text-xs text-gray-300">+{cumulativeLabel}</span>
+                </div>
+                <p className="text-xs text-gray-500">{activity.description}</p>
               </div>
-              <p className="text-xs text-gray-500">{activity.description}</p>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
