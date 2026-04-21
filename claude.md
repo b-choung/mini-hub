@@ -45,13 +45,13 @@ src/
 
 ## 앱 목록
 
-- [ ] Task Board
-- [ ] Timer
-- [ ] Goal Tracker
-- [ ] Mood Tracker
-- [ ] Flower Picks
-- [ ] Memo
-- [ ] Random Plan
+- [ ✓ ] Task Board
+- [ ✓ ] Timer
+- [ ✓ ] Goal Tracker
+- [ ✓ ] Mood Tracker
+- [ ✓ ] Flower Picks
+- [ ✓ ] Memo
+- [ ✓ ] Random Plan
 
 ## Local Storage 키 네이밍 규칙
 
