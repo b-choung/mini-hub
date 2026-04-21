@@ -1,12 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
 export function useAiFetch<T>() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const call = async (url: string, body: unknown, errorMsg: string): Promise<T | null> => {
+  const call = useCallback(async (url: string, body: unknown, errorMsg: string): Promise<T | null> => {
     setIsLoading(true);
     setError(null);
 
@@ -26,7 +26,7 @@ export function useAiFetch<T>() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
 
   return { isLoading, error, setError, call };
 }

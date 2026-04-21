@@ -26,12 +26,14 @@ export default function MemoCard({
 }: MemoCardProps) {
   return (
     <Card className="rounded-2xl relative">
-      <button
-        className="absolute top-4 right-1.5 p-1.5 rounded-full text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors"
+      <Button
+        size="icon"
+        variant="ghost"
+        className="absolute top-3 right-1.5 size-8 text-gray-400 hover:text-red-500 hover:bg-red-50"
         onClick={onDelete}
       >
         <MdDelete size={18} />
-      </button>
+      </Button>
       <CardHeader className="pr-10">
         {isEditing ? (
           <Input
@@ -39,7 +41,7 @@ export default function MemoCard({
             onChange={(e) => onUpdate({ title: e.target.value })}
           />
         ) : (
-          <CardTitle className="text-left text-base">{memo.title}</CardTitle>
+          <CardTitle className="text-left text-base font-display">{memo.title}</CardTitle>
         )}
       </CardHeader>
       <CardContent>
@@ -63,7 +65,7 @@ export default function MemoCard({
           </div>
         ) : (
           <div className="cursor-pointer" onClick={onStartEdit}>
-            <p className="text-sm text-left text-gray-500 whitespace-pre-wrap">
+            <p className="text-sm text-left text-gray-500 whitespace-pre-wrap font-display">
               {memo.content || "내용을 입력하려면 클릭하세요"}
             </p>
             <p className="text-xs text-gray-400 mt-4 text-left">

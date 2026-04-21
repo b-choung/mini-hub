@@ -70,7 +70,7 @@ export default function BoardColumns({
         <div key={column.id} className="flex-1 min-w-64">
           <Card className="rounded-2xl ring-0 shadow-none">
             <CardHeader className="pb-6">
-              <CardTitle className="font-bold">{column.title}</CardTitle>
+              <CardTitle className="font-display">{column.title}</CardTitle>
             </CardHeader>
             <CardContent
               className="min-h-40 pb-16"
@@ -96,20 +96,24 @@ export default function BoardColumns({
                           value={editingText}
                           onChange={(e) => setEditingText(e.target.value)}
                         />
-                        <Button size="sm" onClick={() => saveEdit(card.id)}>
+                        <Button
+                          size="sm"
+                          className="rounded-full"
+                          onClick={() => saveEdit(card.id)}
+                        >
                           저장
                         </Button>
                       </div>
                     ) : (
-                      <span>{card.text}</span>
+                      <span className="font-display">{card.text}</span>
                     )}
                   </div>
-                  <div className="flex flex-wrap justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="flex flex-wrap justify-end gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
                     {!editingCardId && (
                       <Button
                         size="icon"
-                        variant="outline"
-                        className="size-8"
+                        variant="ghost"
+                        className="size-8 hover:text-purple-500"
                         onClick={() => startEdit(card.id, card.text)}
                       >
                         <MdEdit />
@@ -117,8 +121,8 @@ export default function BoardColumns({
                     )}
                     <Button
                       size="icon"
-                      variant="destructive"
-                      className="size-8"
+                      variant="ghost"
+                      className="size-8 hover:text-red-500"
                       onClick={() => onDeleteCard(card.id)}
                     >
                       <MdDelete />

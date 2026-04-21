@@ -1,6 +1,7 @@
 "use client";
 
 import { MdRefresh } from "react-icons/md";
+import { Button } from "@/components/ui/button";
 import { PlanData } from "./RandomPlan";
 import { formatDuration } from "@/lib/utils";
 
@@ -29,7 +30,7 @@ export default function PlanResult({ plan, onRegenerate, isLoading }: PlanResult
     <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-6">
       <div className="flex items-center justify-between mb-5">
         <div className="text-left">
-          <p className="text-sm font-semibold text-gray-700">추천 플랜</p>
+          <p className="text-sm font-display text-gray-700">추천 플랜</p>
           <p className="text-xs text-gray-400 mt-0.5">
             {durationLabel} ·{" "}
             <span className={`px-1.5 py-0.5 rounded-full text-xs font-medium ${STYLE_BADGE[plan.style] ?? "bg-gray-100 text-gray-500"}`}>
@@ -37,14 +38,16 @@ export default function PlanResult({ plan, onRegenerate, isLoading }: PlanResult
             </span>
           </p>
         </div>
-        <button
+        <Button
+          variant="ghost"
+          size="sm"
           onClick={onRegenerate}
           disabled={isLoading}
-          className="flex items-center gap-1 text-xs text-gray-400 hover:text-primary transition-colors cursor-pointer disabled:opacity-40"
+          className="text-xs text-gray-400 hover:text-primary gap-1 h-auto py-1"
         >
           <MdRefresh size={15} className={isLoading ? "animate-spin" : ""} />
           다시 생성
-        </button>
+        </Button>
       </div>
 
       <div className="space-y-1">
@@ -69,7 +72,7 @@ export default function PlanResult({ plan, onRegenerate, isLoading }: PlanResult
               </div>
               <div className="pb-4 text-left">
                 <div className="flex items-center gap-2 mb-0.5">
-                  <span className="text-sm font-semibold text-gray-700">
+                  <span className="text-sm font-display font-semibold text-gray-700">
                     {activity.title}
                   </span>
                   <span className="text-xs text-gray-400">{activity.duration}분</span>

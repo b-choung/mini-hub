@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { MdChevronLeft, MdChevronRight, MdDelete } from "react-icons/md";
+import { Button } from "@/components/ui/button";
 import { MoodEntry, MOODS } from "./MoodForm";
 import { DOW_LABELS } from "@/lib/constants";
 
@@ -71,7 +72,7 @@ export default function MoodCalendar({ entries, onDelete }: MoodCalendarProps) {
   return (
     <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-6 mb-4">
       <div className="flex items-center justify-between mb-5">
-        <p className="text-sm font-semibold text-gray-700">기분 달력</p>
+        <p className="text-sm font-display text-gray-700">기분 달력</p>
         <div className="flex items-center gap-2">
           <button
             onClick={prevMonth}
@@ -163,15 +164,17 @@ export default function MoodCalendar({ entries, onDelete }: MoodCalendarProps) {
               <p className="text-sm text-gray-500">{selectedEntry.diary}</p>
             )}
           </div>
-          <button
+          <Button
+            size="icon"
+            variant="ghost"
+            className="size-7 text-gray-300 hover:text-red-400 hover:bg-white/60 shrink-0"
             onClick={() => {
               onDelete(selectedEntry.id);
               setSelectedDate(null);
             }}
-            className="p-1.5 rounded-full text-gray-300 hover:text-red-400 hover:bg-white/60 transition-colors cursor-pointer shrink-0"
           >
             <MdDelete size={15} />
-          </button>
+          </Button>
         </div>
       )}
     </div>

@@ -59,7 +59,7 @@ export default function GoalDetail({
               style={{ width: `${progress}%` }}
             />
           </div>
-          <p className="text-sm text-blue-500 font-bold mb-6">
+          <p className="text-sm text-primary font-bold mb-6">
             {goal.checkins.length}/{goal.duration}일 ({progress}%)
           </p>
           <div className="overflow-x-auto">

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, startTransition } from "react";
 
 export function useLocalStorage<T>(key: string, initialValue: T) {
   // 서버와 클라이언트 모두 initialValue로 시작해 hydration mismatch 방지
@@ -11,7 +11,7 @@ export function useLocalStorage<T>(key: string, initialValue: T) {
   useEffect(() => {
     const saved = localStorage.getItem(key);
     if (saved !== null) {
-      setValue(JSON.parse(saved) as T);
+      startTransition(() => setValue(JSON.parse(saved) as T));
     }
   }, [key]);
 

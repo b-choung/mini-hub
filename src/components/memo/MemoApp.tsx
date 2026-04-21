@@ -45,7 +45,7 @@ export default function MemoApp() {
     <div className="px-4 py-12">
       <div className="max-w-225 mx-auto">
         <div className="flex items-center justify-between mb-8">
-          <h1 className="text-2xl font-bold">Memo</h1>
+          <h1 className="text-3xl font-display">Memo</h1>
           <Button size="icon" className="rounded-full" onClick={addMemo}>
             <MdAdd />
           </Button>

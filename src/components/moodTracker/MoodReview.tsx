@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { MdAutoAwesome } from "react-icons/md";
 import { MoodEntry } from "./MoodForm";
@@ -16,21 +16,19 @@ export default function MoodReview({ entries }: MoodReviewProps) {
   const [review, setReview] = useState<string | null>(null);
   const { isLoading, error, setError, call } = useAiFetch<{ review: string }>();
 
-  const filteredEntries = useMemo(() => {
-    const today = new Date();
-    return entries.filter((e) => {
-      const d = new Date(e.date + "T12:00:00");
-      if (period === "weekly") {
-        const start = new Date(today);
-        start.setDate(today.getDate() - 6);
-        return d >= start && d <= today;
-      } else if (period === "monthly") {
-        return d.getFullYear() === today.getFullYear() && d.getMonth() === today.getMonth();
-      } else {
-        return d.getFullYear() === today.getFullYear();
-      }
-    });
-  }, [entries, period]);
+  const today = new Date();
+  const filteredEntries = entries.filter((entry) => {
+    const d = new Date(entry.date + "T12:00:00");
+    if (period === "weekly") {
+      const start = new Date(today);
+      start.setDate(today.getDate() - 6);
+      return d >= start && d <= today;
+    } else if (period === "monthly") {
+      return d.getFullYear() === today.getFullYear() && d.getMonth() === today.getMonth();
+    } else {
+      return d.getFullYear() === today.getFullYear();
+    }
+  });
 
   const handleAnalyze = async () => {
     if (filteredEntries.length === 0) return;
@@ -52,13 +50,13 @@ export default function MoodReview({ entries }: MoodReviewProps) {
   return (
     <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-6 mb-4">
       <div className="flex items-center justify-between mb-4">
-        <p className="text-sm font-semibold text-gray-700">AI 기분 리뷰</p>
+        <p className="text-sm font-display text-gray-700">AI 기분 리뷰</p>
         <div className="flex gap-1">
           {PERIODS.map(({ key, label }) => (
             <button
               key={key}
               onClick={() => handlePeriodChange(key)}
-              className={`px-3 py-1 rounded-full text-xs font-semibold transition-all cursor-pointer
+              className={`px-3 py-1 rounded-full text-xs font-display font-semibold transition-all cursor-pointer
                 ${period === key ? "bg-primary text-white" : "text-gray-400 hover:bg-gray-100"}`}
             >
               {label}

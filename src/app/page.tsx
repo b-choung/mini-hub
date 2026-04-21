@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <div className="mx-auto px-4 py-12 text-center">
       <div className="mb-12">
-        <h2 className="text-3xl font-bold mb-3">미니앱 모음</h2>
+        <h2 className="text-4xl font-display mb-3">미니앱 모음</h2>
         <p className="text-gray-500">
           바이브 코딩으로 만든 미니앱들을 만나보세요.
         </p>

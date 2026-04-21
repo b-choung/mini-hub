@@ -53,7 +53,7 @@ export default function MoodForm({ onAdd, registeredDates }: MoodFormProps) {
   return (
     <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-6 mb-4">
       <div className="flex items-center justify-between mb-5">
-        <p className="text-sm font-semibold text-gray-700">오늘의 기분</p>
+        <p className="text-sm font-display text-gray-700">오늘의 기분</p>
         <Input
           type="date"
           value={date}
@@ -67,7 +67,7 @@ export default function MoodForm({ onAdd, registeredDates }: MoodFormProps) {
           <button
             key={label}
             onClick={() => setMood(label)}
-            className={`flex flex-col items-center gap-1.5 flex-1 py-3 rounded-2xl text-xs font-medium transition-all cursor-pointer
+            className={`flex flex-col items-center gap-1.5 flex-1 py-3 rounded-2xl text-xs font-display font-medium transition-all cursor-pointer
               ${mood === label
                 ? "bg-primary/10 text-primary ring-1 ring-primary/30"
                 : "text-gray-400 hover:bg-gray-50"

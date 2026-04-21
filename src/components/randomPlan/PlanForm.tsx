@@ -30,7 +30,7 @@ export default function PlanForm({ onGenerate, isLoading }: PlanFormProps) {
 
   return (
     <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-6 mb-4">
-      <p className="text-sm font-semibold text-gray-700 mb-4">계획할 시간</p>
+      <p className="text-sm font-display text-gray-700 mb-4">계획할 시간</p>
 
       <div className="flex items-center justify-center gap-4 mb-3">
         <button
@@ -66,13 +66,13 @@ export default function PlanForm({ onGenerate, isLoading }: PlanFormProps) {
         ))}
       </div>
 
-      <p className="text-sm font-semibold text-gray-700 mb-3">플랜 방향</p>
+      <p className="text-sm font-display text-gray-700 mb-3">플랜 방향</p>
       <div className="flex gap-2 mb-6">
         {STYLES.map(({ key, emoji, label }) => (
           <button
             key={key}
             onClick={() => setStyle(key)}
-            className={`flex-1 flex flex-col items-center gap-1.5 py-3 rounded-2xl text-xs font-semibold transition-all cursor-pointer
+            className={`flex-1 flex flex-col items-center gap-1.5 py-3 rounded-2xl text-xs font-display font-semibold transition-all cursor-pointer
               ${style === key
                 ? "bg-primary/10 text-primary ring-1 ring-primary/30"
                 : "bg-gray-50 text-gray-400 hover:bg-gray-100"

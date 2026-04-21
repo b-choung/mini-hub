@@ -39,7 +39,7 @@ export default function GoalList({
         <div className="flex flex-col h-full">
           <Card className="rounded-2xl border-2 border-dashed bg-gray-50 shadow-none h-full">
             <CardHeader>
-              <CardTitle className="text-base text-gray-500">
+              <CardTitle className="text-base text-gray-500 font-display">
                 새 목표 추가
               </CardTitle>
             </CardHeader>
@@ -98,13 +98,13 @@ export default function GoalList({
                   <MdDelete size={18} />
                 </button>
                 <CardHeader className="pr-10">
-                  <CardTitle className="text-lg font-bold text-left">
+                  <CardTitle className="text-lg font-display text-left">
                     {goal.name}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-left">시작일: {goal.startDate}</p>
-                  <p className="text-sm text-left">
+                  <p className="text-sm text-left font-display">시작일: {goal.startDate}</p>
+                  <p className="text-sm text-left font-display">
                     목표 기간: {goal.duration}일
                   </p>
                   <div className="mt-10 mb-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
@@ -113,7 +113,7 @@ export default function GoalList({
                       style={{ width: `${progress}%` }}
                     />
                   </div>
-                  <p className="text-sm text-blue-500 font-bold text-right">
+                  <p className="text-sm text-primary font-display text-right">
                     {goal.checkins.length}/{goal.duration}일 ({progress}%)
                   </p>
                 </CardContent>

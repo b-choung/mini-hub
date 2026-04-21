@@ -86,7 +86,7 @@ export default function MoodChart({ entries }: MoodChartProps) {
     <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-6 mb-4">
       <div className="flex items-center justify-between mb-3">
         <div className="text-left">
-          <p className="text-sm font-semibold text-gray-700">기분 통계</p>
+          <p className="text-sm font-display text-gray-700">기분 통계</p>
           {total > 0 && (
             <p className="text-xs text-gray-400 mt-0.5">
               {total}개 기록 · 최다{" "}
@@ -97,13 +97,13 @@ export default function MoodChart({ entries }: MoodChartProps) {
           )}
         </div>
         <div className="flex items-center gap-2">
-          <div className="flex gap-1 bg-gray-100 rounded-full p-0.5">
+          <div className="flex gap-1">
             {PERIODS.map(({ key, label }) => (
               <button
                 key={key}
                 onClick={() => setPeriod(key)}
-                className={`px-3 py-1 rounded-full text-xs font-semibold transition-all cursor-pointer
-                  ${period === key ? "bg-white text-gray-700 shadow-sm" : "text-gray-400 hover:text-gray-600"}`}
+                className={`px-3 py-1 rounded-full text-xs font-display font-semibold transition-all cursor-pointer
+                  ${period === key ? "bg-primary text-white" : "text-gray-400 hover:bg-gray-100"}`}
               >
                 {label}
               </button>

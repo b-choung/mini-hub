@@ -4,4 +4,5 @@ export interface App {
   description: string;
   icon: string;
   color: string;
+  shadowColor: string;
 }

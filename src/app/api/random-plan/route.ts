@@ -1,6 +1,6 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { NextRequest, NextResponse } from "next/server";
-import { AI_MODEL } from "@/lib/ai";
+import { AI_MODEL, extractAiJson } from "@/lib/ai";
 
 const client = new Anthropic();
 
@@ -45,9 +45,7 @@ export async function POST(req: NextRequest) {
       ],
     });
 
-    const raw =
-      message.content[0].type === "text" ? message.content[0].text : "";
-    const text = raw.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "").trim();
+    const text = extractAiJson(message);
 
     try {
       const data = JSON.parse(text);

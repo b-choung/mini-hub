@@ -95,8 +95,8 @@ export default function FlowerPicks() {
                   {flower.emoji ?? "🌼"}
                 </div>
                 <div className="text-left">
-                  <p className="font-semibold text-gray-800">{flower.name}</p>
-                  <p className="text-sm text-gray-400">{flower.meaning}</p>
+                  <p className="font-display font-semibold text-gray-800">{flower.name}</p>
+                  <p className="text-sm font-display text-gray-400">{flower.meaning}</p>
                 </div>
                 <span className="ml-auto text-xs text-gray-200 font-bold">
                   0{i + 1}
