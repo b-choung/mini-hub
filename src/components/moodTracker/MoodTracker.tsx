@@ -5,6 +5,7 @@ import AppLayout from "@/components/common/AppLayout";
 import MoodForm, { MoodEntry } from "./MoodForm";
 import MoodChart from "./MoodChart";
 import MoodCalendar from "./MoodCalendar";
+import MoodReview from "./MoodReview";
 
 const STORAGE_KEY = "minihub_moodTracker";
 
@@ -39,6 +40,7 @@ export default function MoodTracker() {
         />
         <MoodCalendar entries={entries} onDelete={deleteEntry} />
         <MoodChart entries={entries} />
+        <MoodReview entries={entries} />
       </div>
     </AppLayout>
   );
