@@ -7,6 +7,7 @@ import AppLayout from "@/components/common/AppLayout";
 
 interface Flower {
   name: string;
+  emoji: string;
   meaning: string;
 }
 
@@ -15,32 +16,33 @@ interface SearchResult {
   similarMeanings: string[];
 }
 
-const FLOWER_EMOJIS: Record<string, string> = {
-  장미: "🌹",
-  튤립: "🌷",
-  카네이션: "💐",
-  해바라기: "🌻",
-  벚꽃: "🌸",
-  백합: "🪷",
-};
-
-const MOCK_RESULT: SearchResult = {
-  flowers: [
-    { name: "장미", meaning: "사랑, 열정" },
-    { name: "튤립", meaning: "사랑의 고백" },
-    { name: "카네이션", meaning: "당신을 사랑합니다" },
-  ],
-  similarMeanings: ["열정", "그리움", "애정", "헌신"],
-};
-
 export default function FlowerPicks() {
   const [searchTerm, setSearchTerm] = useState("");
   const [result, setResult] = useState<SearchResult | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const searchFlowers = () => {
-    if (!searchTerm.trim()) return;
-    // TODO: AI API 연동
-    setResult(MOCK_RESULT);
+  const searchFlowers = async (keyword: string = searchTerm) => {
+    if (!keyword.trim()) return;
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const res = await fetch("/api/flower-search", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ keyword }),
+      });
+
+      if (!res.ok) throw new Error("검색에 실패했어요.");
+
+      const data = await res.json();
+      setResult(data);
+    } catch {
+      setError("꽃 검색에 실패했어요. 다시 시도해주세요.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -49,7 +51,7 @@ export default function FlowerPicks() {
 
   const handleSimilarClick = (meaning: string) => {
     setSearchTerm(meaning);
-    setResult(MOCK_RESULT);
+    searchFlowers(meaning);
   };
 
   return (
@@ -67,12 +69,17 @@ export default function FlowerPicks() {
           className="rounded-full px-5"
         />
         <Button
-          onClick={searchFlowers}
+          onClick={() => searchFlowers()}
+          disabled={isLoading}
           className="rounded-full font-bold px-6 shrink-0"
         >
-          검색
+          {isLoading ? "검색 중..." : "검색"}
         </Button>
       </div>
+
+      {error && (
+        <p className="text-sm text-red-400 text-center mb-6">{error}</p>
+      )}
 
       {result && (
         <div className="max-w-md mx-auto">
@@ -102,7 +109,7 @@ export default function FlowerPicks() {
                 className="flex items-center gap-4 p-4 rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all"
               >
                 <div className="text-3xl w-12 h-12 flex items-center justify-center bg-pink-50 rounded-full shrink-0">
-                  {FLOWER_EMOJIS[flower.name] ?? "🌼"}
+                  {flower.emoji ?? "🌼"}
                 </div>
                 <div className="text-left">
                   <p className="font-semibold text-gray-800">{flower.name}</p>
