@@ -1,24 +1,16 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import AppLayout from "@/components/common/AppLayout";
 import MoodForm, { MoodEntry } from "./MoodForm";
 import MoodChart from "./MoodChart";
 import MoodCalendar from "./MoodCalendar";
 import MoodReview from "./MoodReview";
+import { useLocalStorage } from "@/lib/useLocalStorage";
 
 const STORAGE_KEY = "minihub_moodTracker";
 
 export default function MoodTracker() {
-  const [entries, setEntries] = useState<MoodEntry[]>(() => {
-    if (typeof window === "undefined") return [];
-    const saved = localStorage.getItem(STORAGE_KEY);
-    return saved ? JSON.parse(saved) : [];
-  });
-
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
-  }, [entries]);
+  const [entries, setEntries] = useLocalStorage<MoodEntry[]>(STORAGE_KEY, []);
 
   const addEntry = (entry: MoodEntry) => {
     setEntries((prev) => {

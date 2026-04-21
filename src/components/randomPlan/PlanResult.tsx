@@ -2,6 +2,7 @@
 
 import { MdRefresh } from "react-icons/md";
 import { PlanData } from "./RandomPlan";
+import { formatDuration } from "@/lib/utils";
 
 interface PlanResultProps {
   plan: PlanData;
@@ -22,14 +23,7 @@ const STYLE_NUMBER: Record<string, string> = {
 };
 
 export default function PlanResult({ plan, onRegenerate, isLoading }: PlanResultProps) {
-  const hours = Math.floor(plan.duration / 60);
-  const mins = plan.duration % 60;
-  const durationLabel =
-    hours > 0 && mins > 0
-      ? `${hours}시간 ${mins}분`
-      : hours > 0
-        ? `${hours}시간`
-        : `${mins}분`;
+  const durationLabel = formatDuration(plan.duration);
 
   return (
     <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-6">

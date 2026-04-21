@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { MdAdd, MdRemove } from "react-icons/md";
 import { PlanStyle } from "./RandomPlan";
+import { formatDuration } from "@/lib/utils";
 
 const STYLES: { key: PlanStyle; emoji: string; label: string }[] = [
   { key: "활동적인", emoji: "🏃", label: "활동적인" },
@@ -25,12 +26,7 @@ export default function PlanForm({ onGenerate, isLoading }: PlanFormProps) {
 
   const totalMinutes = hours * 60 + minutes;
 
-  const timeLabel =
-    hours > 0 && minutes > 0
-      ? `${hours}시간 ${minutes}분`
-      : hours > 0
-        ? `${hours}시간`
-        : `${minutes}분`;
+  const timeLabel = formatDuration(hours * 60 + minutes);
 
   return (
     <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-6 mb-4">

@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { MdAdd } from "react-icons/md";
 import MemoCard from "./MemoCard";
+import { useLocalStorage } from "@/lib/useLocalStorage";
 
 const STORAGE_KEY = "minihub_memo";
 
@@ -15,16 +16,8 @@ interface Memo {
 }
 
 export default function MemoApp() {
-  const [memos, setMemos] = useState<Memo[]>(() => {
-    if (typeof window === "undefined") return [];
-    const saved = localStorage.getItem(STORAGE_KEY);
-    return saved ? JSON.parse(saved) : [];
-  });
+  const [memos, setMemos] = useLocalStorage<Memo[]>(STORAGE_KEY, []);
   const [editingId, setEditingId] = useState<string | null>(null);
-
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(memos));
-  }, [memos]);
 
   const addMemo = () => {
     const memo: Memo = {

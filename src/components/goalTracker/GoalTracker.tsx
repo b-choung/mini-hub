@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import GoalList from "./GoalList";
 import GoalDetail from "./GoalDetail";
+import { useLocalStorage } from "@/lib/useLocalStorage";
 
 const STORAGE_KEY = "minihub_goalTracker";
 
@@ -15,16 +16,8 @@ export interface Goal {
 }
 
 export default function GoalTracker() {
-  const [goals, setGoals] = useState<Goal[]>(() => {
-    if (typeof window === "undefined") return [];
-    const saved = localStorage.getItem(STORAGE_KEY);
-    return saved ? JSON.parse(saved) : [];
-  });
+  const [goals, setGoals] = useLocalStorage<Goal[]>(STORAGE_KEY, []);
   const [selectedGoalId, setSelectedGoalId] = useState<string | null>(null);
-
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(goals));
-  }, [goals]);
 
   const addGoal = (data: Omit<Goal, "id" | "checkins">) => {
     const goal: Goal = { ...data, id: Date.now().toString(), checkins: [] };

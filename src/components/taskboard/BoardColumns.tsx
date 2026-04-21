@@ -83,7 +83,7 @@ export default function BoardColumns({
               <CardTitle className="font-bold">{column.title}</CardTitle>
             </CardHeader>
             <CardContent
-              className="min-h-40"
+              className="min-h-40 pb-16"
               onDragOver={handleDragOver}
               onDrop={() => handleDrop(column.id)}
             >

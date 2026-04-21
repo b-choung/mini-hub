@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useLocalStorage } from "@/lib/useLocalStorage";
 import AddCardForm from "./AddCardForm";
 import BoardColumns from "./BoardColumns";
 import AppLayout from "@/components/common/AppLayout";
@@ -25,15 +25,7 @@ const initialColumns: Column[] = [
 ];
 
 export default function TaskBoard() {
-  const [columns, setColumns] = useState<Column[]>(() => {
-    if (typeof window === "undefined") return initialColumns;
-    const saved = localStorage.getItem(STORAGE_KEY);
-    return saved ? JSON.parse(saved) : initialColumns;
-  });
-
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(columns));
-  }, [columns]);
+  const [columns, setColumns] = useLocalStorage<Column[]>(STORAGE_KEY, initialColumns);
 
   const handleAddCard = (text: string, columnId: string) => {
     const newCard: TaskCard = { id: Date.now().toString(), text };
