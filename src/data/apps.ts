@@ -57,4 +57,12 @@ export const apps: App[] = [
     color: "bg-teal-500 text-white",
     shadowColor: "#14b8a6",
   },
+  {
+    id: "outfitForecast",
+    name: "Outfit Forecast",
+    description: "오늘의 날씨를 확인하고 그에 맞는 옷차림을 알아보는 앱입니다",
+    icon: "MdCloud",
+    color: "bg-sky-400 text-white",
+    shadowColor: "#38bdf8",
+  },
 ];
